@@ -38,5 +38,12 @@ namespace CarRent.Database.Repositories
                 .Where(x => x.Id == carId)
                 .AnyAsync();
         }
+
+        public async Task<bool> IsCarUniqueIdInUseAsync(string uniqueId)
+        {
+            return await Select()
+                .Where(x => x.UniqueId == uniqueId)
+                .AnyAsync();
+        }
     }
 }

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\CarRent.Application\CarRent.Application.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="CarRent.IntegrationTests"/>
+	</ItemGroup>
+
 </Project>

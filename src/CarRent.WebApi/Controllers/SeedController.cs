@@ -2,11 +2,13 @@
 using CarRent.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CarRent.WebApi.Controllers
 {
     [Route("api/v1/seed")]
     [ApiController]
+    [ExcludeFromCodeCoverage(Justification = "Used only internally")]
     public class SeedController : ControllerBase
     {
         private readonly ICarRepository _carRepository;

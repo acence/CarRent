@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRent.WebApi.Controllers
 {
-    [Route("api/v1/rental")]
+    [Route("api/v1/rentals")]
     [ApiController]
     public class RentalController : ControllerBase
     {

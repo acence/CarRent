@@ -42,6 +42,11 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .Must(x => x.StartsWith("C"))
                 .WithMessage("Unique Id must start with C")
                 .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.UniqueId)
+                .Must(x => !carRepository.IsCarUniqueIdInUseAsync(x).GetAwaiter().GetResult())
+                .WithMessage("Unique Id must already esists in system")
+                .WithSeverity(Severity.Error);
         }
     }
 }
