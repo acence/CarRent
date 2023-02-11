@@ -7,7 +7,7 @@ namespace CarRent.Domain
         public int UserId { get; set; }
         public int CarId { get; set; }
 
-        public DateTimeOffset RentDateTime { get; set; }
+        public DateOnly RentDate { get; set; }
 
         public User User { get; set; } = null!;
         public Car Car { get; set; } = null!;

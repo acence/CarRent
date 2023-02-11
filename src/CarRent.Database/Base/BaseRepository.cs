@@ -31,7 +31,7 @@ namespace FitnessApp.Database.Base
 
         public virtual IQueryable<T> Select()
         {
-            return Entities;
+            return Entities.AsNoTracking();
         }
 
         public virtual async Task<T?> GetById(int id)

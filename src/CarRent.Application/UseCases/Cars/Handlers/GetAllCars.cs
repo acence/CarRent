@@ -1,4 +1,5 @@
-﻿using CarRent.Database.Interfaces.Repositories;
+﻿using AutoMapper;
+using CarRent.Database.Interfaces.Repositories;
 using CarRent.Domain;
 using MediatR;
 
@@ -10,6 +11,8 @@ namespace CarRent.Application.UseCases.Cars.Handlers
 
         public GetAllCars(ICarRepository carRepository)
         {
+            ArgumentNullException.ThrowIfNull(carRepository);
+
             _carRepository = carRepository;
         }
         public async Task<IEnumerable<Car>> Handle(Query request, CancellationToken cancellationToken)

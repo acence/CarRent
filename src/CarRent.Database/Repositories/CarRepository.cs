@@ -19,11 +19,24 @@ namespace CarRent.Database.Repositories
 
             var test = await Select().ToListAsync();
 
-            if (make != null) {  queryable = queryable.Where(x => x.Make == make); }
-            if (model != null) { queryable = queryable.Where(x => x.Model == model); }
-            if (uniqueId != null) { queryable = queryable.Where(x => x.Make.Contains(uniqueId)); }
+            if (make != null) {  queryable = queryable.Where(x => x.Make.Equals(make, StringComparison.InvariantCultureIgnoreCase)); }
+            if (model != null) { queryable = queryable.Where(x => x.Model.Equals(model, StringComparison.InvariantCultureIgnoreCase)); }
+            if (uniqueId != null) { queryable = queryable.Where(x => x.UniqueId.StartsWith(uniqueId, StringComparison.InvariantCultureIgnoreCase)); }
 
             return await queryable.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Car>> GetAvailableCarsAsync(DateOnly date)
+        {
+            return await Select()
+                .Where(x => !x.Rentals.Any(y => y.RentDate == date))
+                .ToListAsync();
+        }
+        public async Task<bool> DoesCarExistAsync(int carId)
+        {
+            return await Select()
+                .Where(x => x.Id == carId)
+                .AnyAsync();
         }
     }
 }

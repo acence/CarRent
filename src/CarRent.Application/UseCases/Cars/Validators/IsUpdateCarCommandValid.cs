@@ -1,4 +1,6 @@
 ﻿using CarRent.Application.UseCases.Cars.Handlers;
+using CarRent.Database.Interfaces.Repositories;
+using CarRent.Database.Repositories;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,15 @@ namespace CarRent.Application.UseCases.Cars.Validators
 {
     public class IsUpdateCarCommandValid : AbstractValidator<UpdateCar.Command>
     {
-        public IsUpdateCarCommandValid()
+        public IsUpdateCarCommandValid(ICarRepository carRepository)
         {
             RuleFor(x => x.Id)
                 .NotEmpty()
+                .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.Id)
+                .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
+                .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.Make)
@@ -32,7 +39,9 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.UniqueId)
-                .Must(x => x.StartsWith("C"));
+                .Must(x => x.StartsWith("C"))
+                .WithMessage("Unique Id must start with C")
+                .WithSeverity(Severity.Error);
         }
     }
 }

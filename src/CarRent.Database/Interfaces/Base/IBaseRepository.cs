@@ -1,4 +1,6 @@
-﻿namespace CarRent.Database.Interfaces.Base
+﻿using System.Linq.Expressions;
+
+namespace CarRent.Database.Interfaces.Base
 {
     public interface IBaseRepository<T>
     {
@@ -6,6 +8,7 @@
         Task<T?> GetById(int id);
         Task<int> Insert(T entity);
         Task<int> Update(T entity);
+        Task<int> InsertOrUpdate(Expression<Func<T, bool>> comparer, T entity);
         Task<int> Delete(T entity);
     }
 }

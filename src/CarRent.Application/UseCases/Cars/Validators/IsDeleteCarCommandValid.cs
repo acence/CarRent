@@ -1,4 +1,6 @@
 ﻿using CarRent.Application.UseCases.Cars.Handlers;
+using CarRent.Database.Interfaces.Repositories;
+using CarRent.Database.Repositories;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,15 @@ namespace CarRent.Application.UseCases.Cars.Validators
 {
     public class IsDeleteCarCommandValid : AbstractValidator<DeleteCar.Command>
     {
-        public IsDeleteCarCommandValid()
+        public IsDeleteCarCommandValid(ICarRepository carRepository)
         {
             RuleFor(x => x.Id)
                 .NotEmpty()
+                .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.Id)
+                .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
+                .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);
         }
     }

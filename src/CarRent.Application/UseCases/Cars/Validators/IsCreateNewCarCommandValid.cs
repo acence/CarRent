@@ -25,10 +25,8 @@ namespace CarRent.Application.UseCases.Cars.Validators
             RuleFor(x => x.UniqueId)
                 .NotEmpty()
                 .MaximumLength(13)
+                .Must(x => x.StartsWith("C"))
                 .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.UniqueId)
-                .Must(x => x.StartsWith("C"));
         }
     }
 }

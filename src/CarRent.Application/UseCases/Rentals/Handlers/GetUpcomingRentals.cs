@@ -16,14 +16,13 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
         }
         public async Task<IEnumerable<Rental>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var from = request.DateTimeFrom ?? DateTimeOffset.Now;
-            return await _rentalRepository.GetRentalsByUserIdAsync(from, request.UserId);
+            return await _rentalRepository.GetRentalsByUserIdAsync(request.DateFrom, request.UserId);
         }
 
         public class Query: IRequest<IEnumerable<Rental>>
         {
             public int UserId { get; set; }
-            public DateTimeOffset? DateTimeFrom { get; set; }
+            public DateOnly DateFrom { get; set; }
         }
     }
 }

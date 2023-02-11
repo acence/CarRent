@@ -9,7 +9,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 builder.Services.AddDatabaseServices(builder.Configuration);
-builder.Services.AddMediatorServices();
+builder.Services.AddMediatorServices().AddValidators();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddEndpointsApiExplorer();

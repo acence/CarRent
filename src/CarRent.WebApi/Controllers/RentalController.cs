@@ -26,8 +26,21 @@ namespace CarRent.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<RentalResponse>> GetUpcoming(int userId)
         {
-            var result = await _mediator.Send(new GetUpcomingRentals.Query { UserId = userId });
+            var date = DateOnly.FromDateTime(DateTimeOffset.Now.Date);
+            var result = await _mediator.Send(new GetUpcomingRentals.Query { DateFrom = date, UserId = userId });
             return _mapper.Map<IEnumerable<RentalResponse>>(result);
+        }
+
+        [HttpGet]
+        [Route("available-cars")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IEnumerable<CarResponse>> GetAvailableCars(DateTimeOffset? date)
+        {
+            date = date ?? DateTimeOffset.Now;
+            var dateParam = DateOnly.FromDateTime(date.Value.Date);
+            var result = await _mediator.Send(new GetAvailableCars.Query { Date = dateParam });
+            return _mapper.Map<IEnumerable<CarResponse>>(result);
         }
 
         [HttpPost]

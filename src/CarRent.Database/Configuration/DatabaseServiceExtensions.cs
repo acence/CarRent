@@ -20,6 +20,7 @@ namespace CarRent.Database.Configuration
             services.AddDbContext<IDatabaseContext, DatabaseContext>(options =>
             {
                 options.UseInMemoryDatabase("CarRent");
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
