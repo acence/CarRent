@@ -1,4 +1,5 @@
 ﻿using CarRent.Database.Interfaces;
+using CarRent.Domain;
 using CarRent.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,11 +34,6 @@ namespace CarRent.Database
         }
 
         #endregion Methods
-
-        #region Entity Sets
-
-
-        #endregion Entity Sets
     }
 }
 

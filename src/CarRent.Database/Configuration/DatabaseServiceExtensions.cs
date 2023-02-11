@@ -21,7 +21,9 @@ namespace CarRent.Database.Configuration
             {
                 options.UseInMemoryDatabase("CarRent");
             });
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IRentalRepository, RentalRepository>();
 
             return services;
         }

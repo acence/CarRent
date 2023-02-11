@@ -17,6 +17,8 @@ namespace CarRent.Database.Repositories
         {
             var queryable = Select();
 
+            var test = await Select().ToListAsync();
+
             if (make != null) {  queryable = queryable.Where(x => x.Make == make); }
             if (model != null) { queryable = queryable.Where(x => x.Model == model); }
             if (uniqueId != null) { queryable = queryable.Where(x => x.Make.Contains(uniqueId)); }

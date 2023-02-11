@@ -16,11 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Rentals\Handlers\" />
-    <Folder Include="UseCases\Rentals\Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarRent.Database\CarRent.Database.csproj" />
   </ItemGroup>
 

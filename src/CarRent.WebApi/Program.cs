@@ -10,7 +10,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 builder.Services.AddDatabaseServices(builder.Configuration);
 builder.Services.AddMediatorServices();
-builder.Services.AddAutoMapper();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

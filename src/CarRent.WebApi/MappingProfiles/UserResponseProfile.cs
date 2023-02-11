@@ -4,11 +4,11 @@ using CarRent.WebApi.ResponseModels;
 
 namespace CarRent.WebApi.MappingProfiles
 {
-    public class CarResponseProfile : Profile
+    public class UserResponseProfile : Profile
     {
-        public CarResponseProfile()
+        public UserResponseProfile() 
         {
-            CreateMap<Car, CarResponse>();
+            CreateMap<User, UserResponse>();
         }
     }
 }
