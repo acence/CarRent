@@ -12,5 +12,6 @@ namespace CarRent.Database.Interfaces.Repositories
     {
         Task<IEnumerable<Rental>> GetRentalsByUserIdAsync(DateOnly from, int userId);
         Task<bool> DoesRentalExistForCarAsync(DateOnly date, int carId);
+        Task<Rental> GetByIdWithParentsAsync(int rentalId);
     }
 }

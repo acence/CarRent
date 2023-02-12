@@ -33,5 +33,13 @@ namespace CarRent.Database.Repositories
                 .Where(x => x.CarId == carId && x.RentDate == date)
                 .AnyAsync();
         }
+
+        public async Task<Rental> GetByIdWithParentsAsync(int rentalId)
+        {
+            return await Select()
+                .Include(x => x.Car)
+                .Include(x => x.User)
+                .FirstAsync(x => x.Id == rentalId);
+        }
     }
 }

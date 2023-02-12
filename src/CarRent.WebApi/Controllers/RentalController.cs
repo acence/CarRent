@@ -21,7 +21,7 @@ namespace CarRent.WebApi.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        [Route("upcoming")]
+        [Route("{userId}/upcoming")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RentalResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<RentalResponse>> GetUpcoming(int userId)
@@ -32,7 +32,7 @@ namespace CarRent.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("available-cars")]
+        [Route("{userId}/available-cars")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<CarResponse>> GetAvailableCars(DateTimeOffset? date)

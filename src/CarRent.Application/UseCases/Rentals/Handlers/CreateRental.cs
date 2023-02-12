@@ -29,6 +29,8 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
                 throw new RentalNotCreatedException();
             }
 
+            rental = await _rentalRepository.GetByIdWithParentsAsync(rental.Id);
+
             return rental;
         }
 

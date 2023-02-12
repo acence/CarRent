@@ -2,8 +2,9 @@
 {
     public class RentalResponse
     {
+        public int Id { get; set; }
         public UserResponse User { get; set; } = null!;
         public CarResponse Car { get; set; } = null!;
-        public DateTimeOffset Date { get; set; }
+        public DateOnly Date { get; set; }
     }
 }

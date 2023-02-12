@@ -18,7 +18,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="CarRent.IntegrationTests"/>
+		<InternalsVisibleTo Include="CarRent.IntegrationTests" />
 	</ItemGroup>
 
 </Project>

@@ -1,23 +1,19 @@
 ﻿using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Database.Interfaces.Repositories;
-using CarRent.Domain;
 using CarRent.IntegrationTests.ClassData.Cars;
 using CarRent.IntegrationTests.Configuration;
+using CarRent.IntegrationTests.Helpers;
 using CarRent.WebApi.ResponseModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System;
-using System.Net;
 using System.Net.Http.Json;
-using Xunit;
+using System.Text.Json;
 
 namespace CarRent.IntegrationTests
 {
-    public class CarControllerTests
-    : IClassFixture<WebApplicationFactory<Program>>
+    [Collection("IntegrationTests")]
+    public class CarControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
         private ICarRepository _carRepository;
@@ -35,11 +31,13 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
+
             // Act 
-            var response = await client.GetFromJsonAsync<IEnumerable<Car>>("/api/v1/cars");
+            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>("/api/v1/cars");
+
             // Assert
-            response.Should().NotBeNull();
-            response.Should().HaveCount(6);
+            result.Should().NotBeNull();
+            result.Should().HaveCount(6);
         }
         [Theory]
         [InlineData("/api/v1/cars?make=audi", 2)]
@@ -50,11 +48,13 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
+
             // Act 
-            var response = await client.GetFromJsonAsync<IEnumerable<CarResponse>>(url);
+            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>(url);
+
             // Assert
-            response.Should().NotBeNull();
-            response.Should().HaveCount(count);
+            result.Should().NotBeNull();
+            result.Should().HaveCount(count);
         }
 
         [Theory]
@@ -63,10 +63,11 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
+
             // Act 
             var response = await client.PostAsJsonAsync("/api/v1/cars", car);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var carResponse = JsonConvert.DeserializeObject<CarResponse>(responseContent);
+            var carResponse = await SerializationHelper.GetDeserializedValue<CarResponse>(response);
+
             // Assert
             carResponse.Should().NotBeNull();
             carResponse.Id.Should().Be(7);
@@ -82,10 +83,11 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
+
             // Act 
             var response = await client.PutAsJsonAsync($"/api/v1/cars/{car.Id}", car);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var carResponse = JsonConvert.DeserializeObject<CarResponse>(responseContent);
+            var carResponse = await SerializationHelper.GetDeserializedValue<CarResponse>(response);
+
             // Assert
             carResponse.Should().NotBeNull();
             carResponse.Id.Should().Be(4);
@@ -101,10 +103,11 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
-            // Act 
-            var response = await client.DeleteAsync($"/api/v1/cars/{carId}");
-            // Assert
 
+            // Act 
+            await client.DeleteAsync($"/api/v1/cars/{carId}");
+
+            // Assert
             _carRepository.Select().ToList().Should().HaveCount(5);
         }
     }
