@@ -25,7 +25,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
 
         [Theory]
         [ClassData(typeof(DeleteCarValidData))]
-        public void WhenValidatingUpdateCarCommand_WithValidData_ExpectNoError(DeleteCar.Command command)
+        public void WhenValidatingDeleteCarCommand_WithValidData_ExpectNoError(DeleteCar.Command command)
         {
             Action action = () => _validator.ValidateAndThrow(command);
 
@@ -35,7 +35,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
 
         [Theory]
         [ClassData(typeof(DeleteCarInvalidData))]
-        public async Task WhenValidatingUpdateCarCommand_WithInvalidData_ExpectError(DeleteCar.Command command, IList<(string property, string errorCode)> expectedErrors)
+        public async Task WhenValidatingDeleteCarCommand_WithInvalidData_ExpectError(DeleteCar.Command command, IList<(string property, string errorCode)> expectedErrors)
         {
             ValidationResult result = await _validator.ValidateAsync(command);
 
