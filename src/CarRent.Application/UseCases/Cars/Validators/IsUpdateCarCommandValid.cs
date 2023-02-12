@@ -15,35 +15,30 @@ namespace CarRent.Application.UseCases.Cars.Validators
         public IsUpdateCarCommandValid(ICarRepository carRepository)
         {
             RuleFor(x => x.Id)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.Id)
                 .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.Make)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .MaximumLength(50)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.Model)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .MaximumLength(120)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.UniqueId)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .MaximumLength(13)
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.UniqueId)
                 .Must(x => x.StartsWith("C"))
                 .WithMessage("Unique Id must start with C")
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.UniqueId)
                 .Must(x => !carRepository.IsCarUniqueIdInUseAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Unique Id must already esists in system")
                 .WithSeverity(Severity.Error);

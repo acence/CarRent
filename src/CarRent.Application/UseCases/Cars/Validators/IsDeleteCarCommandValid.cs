@@ -15,10 +15,8 @@ namespace CarRent.Application.UseCases.Cars.Validators
         public IsDeleteCarCommandValid(ICarRepository carRepository)
         {
             RuleFor(x => x.Id)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.Id)
                 .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);

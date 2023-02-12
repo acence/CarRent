@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.IntegrationTests.ClassData.Cars
+namespace CarRent.IntegrationTests.TestData.Cars
 {
     public class CreateCarData : TheoryData<CreateNewCar.Command>
     {

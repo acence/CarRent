@@ -1,6 +1,6 @@
 ﻿using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Database.Interfaces.Repositories;
-using CarRent.IntegrationTests.ClassData.Cars;
+using CarRent.IntegrationTests.TestData.Cars;
 using CarRent.IntegrationTests.Configuration;
 using CarRent.IntegrationTests.Helpers;
 using CarRent.WebApi.ResponseModels;

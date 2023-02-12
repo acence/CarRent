@@ -1,19 +1,13 @@
-﻿using CarRent.Database.Interfaces.Repositories;
+﻿using CarRent.Application.UseCases.Rentals.Handlers;
+using CarRent.Database.Interfaces.Repositories;
 using CarRent.IntegrationTests.Configuration;
-using CarRent.WebApi.Converters;
+using CarRent.IntegrationTests.Helpers;
+using CarRent.IntegrationTests.TestData.Rentals;
 using CarRent.WebApi.ResponseModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using CarRent.IntegrationTests.Helpers;
-using CarRent.Application.UseCases.Cars.Handlers;
-using CarRent.IntegrationTests.ClassData.Cars;
-using CarRent.Application.UseCases.Rentals.Handlers;
-using CarRent.IntegrationTests.ClassData.Rentals;
-using CarRent.Domain;
 
 namespace CarRent.IntegrationTests
 {

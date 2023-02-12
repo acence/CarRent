@@ -1,6 +1,6 @@
 ﻿using CarRent.Application.UseCases.Rentals.Handlers;
 
-namespace CarRent.IntegrationTests.ClassData.Rentals
+namespace CarRent.IntegrationTests.TestData.Rentals
 {
     public class CreateRentalData : TheoryData<CreateRental.Command>
     {

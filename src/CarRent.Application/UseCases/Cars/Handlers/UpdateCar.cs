@@ -23,11 +23,6 @@ namespace CarRent.Application.UseCases.Cars.Handlers
         public async Task<Car> Handle(Command request, CancellationToken cancellationToken)
         {
             var car = _mapper.Map<Car>(request);
-            var carDb = _carRepository.GetById(car.Id);
-            if (carDb == null)
-            {
-                throw new CarNotFoundException();
-            }
 
             var affectedResults = await _carRepository.Update(car);
             if(affectedResults == 0)
