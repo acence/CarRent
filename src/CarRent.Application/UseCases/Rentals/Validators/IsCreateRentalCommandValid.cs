@@ -15,29 +15,23 @@ namespace CarRent.Application.UseCases.Rentals.Validators
         public IsCreateRentalCommandValid(IUserRepository userRepository, ICarRepository carRepository, IRentalRepository rentalRepository)
         {
             RuleFor(x => x.UserId)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.CarId)
-                .NotEmpty()
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.Date)
-                .NotEmpty()
-                .NotEqual(DateOnly.MinValue)
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.UserId)
                 .Must(x => userRepository.DoesUserExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must request rentals for an existing user in the system")
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.CarId)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
                 .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must request rentals for an existing car in the system")
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.Date)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotEqual(DateOnly.MinValue)
                 .Must((command, date) => !rentalRepository.DoesRentalExistForCarAsync(date, command.CarId).GetAwaiter().GetResult())
                 .WithMessage("Must request rentals for an available car in the system")
                 .WithSeverity(Severity.Error);

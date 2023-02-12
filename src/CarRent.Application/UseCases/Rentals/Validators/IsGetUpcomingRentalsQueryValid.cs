@@ -14,10 +14,8 @@ namespace CarRent.Application.UseCases.Rentals.Validators
         public IsGetUpcomingRentalsQueryValid(IUserRepository userRepository)
         {
             RuleFor(x => x.UserId)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .WithSeverity(Severity.Error);
-
-            RuleFor(x => x.UserId)
                 .Must(x => userRepository.DoesUserExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must request rentals for an existing user in the system")
                 .WithSeverity(Severity.Error);
