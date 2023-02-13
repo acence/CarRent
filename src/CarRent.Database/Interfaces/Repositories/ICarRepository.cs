@@ -6,7 +6,7 @@ namespace CarRent.Database.Interfaces.Repositories
     public interface ICarRepository : IBaseRepository<Car>
     {
         Task<IEnumerable<Car>> GetAllAsync(string? make, string? model, string? uniqueId);
-        Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from);
+        Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from, DateTimeOffset? to);
         Task<bool> DoesCarExistAsync(int carId);
         Task<bool> IsCarUniqueIdInUseAsync(string uniqueId);
     }

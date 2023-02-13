@@ -15,7 +15,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
         {
             _carRepository = new Mock<ICarRepository>();
             _carRepository
-                .Setup(x => x.GetAvailableCarsAsync(It.IsAny<DateTimeOffset>()))
+                .Setup(x => x.GetAvailableCarsAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset?>()))
                 .ReturnsAsync(new List<Car> { new Car { Id = 1 } });
         }
         [Fact]

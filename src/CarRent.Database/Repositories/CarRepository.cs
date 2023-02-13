@@ -26,10 +26,20 @@ namespace CarRent.Database.Repositories
             return await queryable.ToListAsync();
         }
 
-        public async Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from)
+        public async Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from, DateTimeOffset? to)
         {
-            return await Select()
-                .Where(x => !x.Rentals.Any(y => y.From >= from))
+            var queryable = Select();
+
+            if(!to.HasValue)
+            {
+                queryable = queryable.Where(x => !x.Rentals.Any(y => y.From >= from));
+            }
+            else
+            {
+                queryable = queryable.Where(x => !x.Rentals.Any(y => y.From >= from && y.To <= to.Value));
+            }
+
+            return await queryable
                 .ToListAsync();
         }
         public async Task<bool> DoesCarExistAsync(int carId)

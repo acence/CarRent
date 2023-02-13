@@ -12,6 +12,11 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .NotEmpty()
                 .NotEqual(DateTimeOffset.MinValue)
                 .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.To)
+                .Cascade(CascadeMode.Stop)
+                .NotEqual(DateTimeOffset.MinValue)
+                .WithSeverity(Severity.Error);
         }
     }
 }

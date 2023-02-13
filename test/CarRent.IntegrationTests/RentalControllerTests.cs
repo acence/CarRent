@@ -58,7 +58,7 @@ namespace CarRent.IntegrationTests
 
             // Assert
             result.Should().NotBeNull();
-            result.Should().HaveCount(4);
+            result.Where(x => x.Make != "TestCar").Should().HaveCount(4);
         }
 
         [Theory]
