@@ -19,6 +19,12 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .Must(x => userRepository.DoesUserExistAsync(x).GetAwaiter().GetResult())
                 .WithMessage("Must request rentals for an existing user in the system")
                 .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.From)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotEqual(DateTimeOffset.MinValue)
+                .WithSeverity(Severity.Error);
         }
     }
 }

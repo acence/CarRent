@@ -28,13 +28,30 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .WithMessage("Must request rentals for an existing car in the system")
                 .WithSeverity(Severity.Error);
 
-            RuleFor(x => x.Date)
+            RuleFor(x => x.From)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .NotEqual(DateOnly.MinValue)
-                .Must((command, date) => !rentalRepository.DoesRentalExistForCarAsync(date, command.CarId).GetAwaiter().GetResult())
+                .NotEqual(DateTimeOffset.MinValue)
+                .GreaterThan(DateTime.Now.Date.AddDays(-1))
+                .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.To )
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                .NotEqual(DateTimeOffset.MinValue)
+                .GreaterThan(x => x.From)
+                .Must((command, _) => (command.To - command.From).TotalHours <= 2)
+                .WithMessage("Rental duration cannot exceed two hours")
+                .WithSeverity(Severity.Error);
+
+            RuleFor(x => x.From)
+                .Cascade(CascadeMode.Stop)
+                .Must((command, _) => !rentalRepository.DoesRentalExistForCarAsync(command.From, command.To, command.CarId).GetAwaiter().GetResult())
+                .WithName("(From, To)")
                 .WithMessage("Must request rentals for an available car in the system")
                 .WithSeverity(Severity.Error);
+
+
         }
     }
 }

@@ -8,8 +8,7 @@ namespace CarRent.WebApi.MappingProfiles
     {
         public RentalResponseProfile()
         {
-            CreateMap<Rental, RentalResponse>()
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(x => x.RentDate));
+            CreateMap<Rental, RentalResponse>();
         }
     }
 }

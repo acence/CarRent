@@ -16,12 +16,12 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
         }
         public async Task<IEnumerable<Car>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _carRepository.GetAvailableCarsAsync(request.Date);
+            return await _carRepository.GetAvailableCarsAsync(request.From);
         }
 
         public class Query : IRequest<IEnumerable<Car>>
         {
-            public DateOnly Date { get; set; }
+            public DateTimeOffset From { get; set; }
         }
     }
 }

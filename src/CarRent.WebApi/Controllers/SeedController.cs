@@ -34,10 +34,10 @@ namespace CarRent.WebApi.Controllers
             await _carRepository.InsertOrUpdate(x => x.Id == 5, new Car { Id = 5, Make = "Audi", Model = "A5", UniqueId = "C965" });
             await _carRepository.InsertOrUpdate(x => x.Id == 6, new Car { Id = 6, Make = "Ferrari", Model = "F40", UniqueId = "C258" });
 
-            await _rentalRepository.InsertOrUpdate(x => x.Id == 1, new Rental { Id = 1, CarId = 1, UserId = 1, RentDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date) });
-            await _rentalRepository.InsertOrUpdate(x => x.Id == 2, new Rental { Id = 2, CarId = 4, UserId = 1, RentDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date) });
-            await _rentalRepository.InsertOrUpdate(x => x.Id == 3, new Rental { Id = 3, CarId = 1, UserId = 1, RentDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date.AddDays(5)) });
-            await _rentalRepository.InsertOrUpdate(x => x.Id == 4, new Rental { Id = 4, CarId = 1, UserId = 1, RentDate = DateOnly.FromDateTime(DateTimeOffset.Now.Date.AddDays(-5)) });
+            await _rentalRepository.InsertOrUpdate(x => x.Id == 1, new Rental { Id = 1, CarId = 1, UserId = 1, From = DateTimeOffset.Now.Date.AddHours(8), To = DateTimeOffset.Now.Date.AddHours(9) });
+            await _rentalRepository.InsertOrUpdate(x => x.Id == 2, new Rental { Id = 2, CarId = 4, UserId = 1, From = DateTimeOffset.Now.Date.AddHours(15), To = DateTimeOffset.Now.Date.AddHours(15).AddMinutes(45) });
+            await _rentalRepository.InsertOrUpdate(x => x.Id == 3, new Rental { Id = 3, CarId = 1, UserId = 1, From = DateTimeOffset.Now.Date.AddDays(5), To = DateTimeOffset.Now.Date.AddDays(5).AddHours(1) });
+            await _rentalRepository.InsertOrUpdate(x => x.Id == 4, new Rental { Id = 4, CarId = 1, UserId = 1, From = DateTimeOffset.Now.Date.AddDays(-5), To = DateTimeOffset.Now.Date.AddDays(-5).AddHours(1) });
         }
     }
 }

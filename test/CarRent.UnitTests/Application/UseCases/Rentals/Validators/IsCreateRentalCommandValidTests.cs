@@ -27,8 +27,8 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
             _carRepository.Setup(x => x.DoesCarExistAsync(2)).ReturnsAsync(false);
             _carRepository.Setup(x => x.DoesCarExistAsync(3)).ReturnsAsync(true);
             _rentalRepository = new Mock<IRentalRepository>();
-            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateOnly>(), 1)).ReturnsAsync(false);
-            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateOnly>(), 3)).ReturnsAsync(true);
+            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 1)).ReturnsAsync(false);
+            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 3)).ReturnsAsync(true);
             _validator = new IsCreateRentalCommandValid(_userRepository.Object, _carRepository.Object, _rentalRepository.Object);
         }
         [Theory]

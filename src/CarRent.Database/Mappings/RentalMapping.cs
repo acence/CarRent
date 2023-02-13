@@ -15,6 +15,12 @@ namespace CarRent.Database.Mappings
 
             builder.Property(x => x.CarId)
                 .IsRequired();
+
+            builder.Property(x => x.From)
+                .IsRequired();
+
+            builder.Property(x => x.To)
+                .IsRequired();
         }
     }
 }

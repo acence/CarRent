@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public UserResponse User { get; set; } = null!;
         public CarResponse Car { get; set; } = null!;
-        public DateOnly Date { get; set; }
+        public DateTimeOffset From { get; set; }
+        public DateTimeOffset To { get; set; }
     }
 }

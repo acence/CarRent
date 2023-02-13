@@ -6,7 +6,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
     {
         public GetUpcomingRentalsValidData()
         {
-            Add(new GetUpcomingRentals.Query { UserId = 1, DateFrom = DateOnly.FromDateTime(DateTime.Now) });
+            Add(new GetUpcomingRentals.Query { UserId = 1, From = DateTime.Now.Date });
         }
     }
 }

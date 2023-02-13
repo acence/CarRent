@@ -38,7 +38,8 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
         {
             public int UserId { get; set; }
             public int CarId { get; set; }
-            public DateOnly Date { get; set; }
+            public DateTimeOffset From { get; set; }
+            public DateTimeOffset To { get; set; }
         }
     }
 }

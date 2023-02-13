@@ -6,7 +6,7 @@ namespace CarRent.IntegrationTests.TestData.Rentals
     {
         public CreateRentalData()
         {
-            Add(new CreateRental.Command() { CarId = 5, UserId = 1, Date = DateOnly.FromDateTime(DateTimeOffset.Now.Date) });
+            Add(new CreateRental.Command() { CarId = 5, UserId = 1, From = DateTimeOffset.Now.Date.AddHours(10), To = DateTimeOffset.Now.Date.AddHours(11) });
         }
     }
 }

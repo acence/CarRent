@@ -6,7 +6,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
     {
         public CreateRentalValidData()
         {
-            Add(new CreateRental.Command { UserId = 1, CarId = 1, Date = DateOnly.FromDateTime(DateTime.Now) });
+            Add(new CreateRental.Command { UserId = 1, CarId = 1, From = DateTimeOffset.Now, To = DateTimeOffset.Now.AddHours(1) });
         }
     }
 }

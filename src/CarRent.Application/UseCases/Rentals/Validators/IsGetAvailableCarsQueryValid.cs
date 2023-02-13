@@ -7,10 +7,10 @@ namespace CarRent.Application.UseCases.Rentals.Validators
     {
         public IsGetAvailableCarsQueryValid()
         {
-            RuleFor(x => x.Date)
+            RuleFor(x => x.From)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .NotEqual(DateOnly.MinValue)
+                .NotEqual(DateTimeOffset.MinValue)
                 .WithSeverity(Severity.Error);
         }
     }

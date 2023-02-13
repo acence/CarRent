@@ -6,7 +6,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
     {
         public GetAvailableCarsValidData()
         {
-            Add(new GetAvailableCars.Query { Date = DateOnly.FromDateTime(DateTime.Now) });
+            Add(new GetAvailableCars.Query { From = DateTime.Now });
         }
     }
 }

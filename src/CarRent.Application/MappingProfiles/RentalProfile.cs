@@ -13,8 +13,7 @@ namespace CarRent.Application.MappingProfiles
     {
         public RentalProfile()
         {
-            CreateMap<CreateRental.Command, Rental>()
-                .ForMember(dest => dest.RentDate, opt => opt.MapFrom(src => src.Date));
+            CreateMap<CreateRental.Command, Rental>();
         }
     }
 }

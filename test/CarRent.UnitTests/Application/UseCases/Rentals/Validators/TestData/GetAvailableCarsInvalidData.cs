@@ -6,7 +6,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
     {
         public GetAvailableCarsInvalidData()
         {
-            Add(new GetAvailableCars.Query { Date = DateOnly.MinValue }, new List<(string, string)> { ("Date", ValidationErrorCodes.NotEmpty) });
+            Add(new GetAvailableCars.Query { From = DateTimeOffset.MinValue }, new List<(string, string)> { ("From", ValidationErrorCodes.NotEmpty) });
         }
     }
 }

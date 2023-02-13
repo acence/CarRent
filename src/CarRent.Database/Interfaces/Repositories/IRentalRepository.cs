@@ -10,8 +10,8 @@ namespace CarRent.Database.Interfaces.Repositories
 {
     public interface IRentalRepository : IBaseRepository<Rental>
     {
-        Task<IEnumerable<Rental>> GetRentalsByUserIdAsync(DateOnly from, int userId);
-        Task<bool> DoesRentalExistForCarAsync(DateOnly date, int carId);
+        Task<IEnumerable<Rental>> GetRentalsByUserIdAsync(DateTimeOffset from, int userId);
+        Task<bool> DoesRentalExistForCarAsync(DateTimeOffset from, DateTimeOffset to, int carId);
         Task<Rental> GetByIdWithParentsAsync(int rentalId);
     }
 }

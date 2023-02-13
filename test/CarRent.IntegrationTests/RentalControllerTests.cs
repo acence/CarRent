@@ -35,25 +35,26 @@ namespace CarRent.IntegrationTests
         {
             // Arrange
             var client = _factory.CreateClient();
+            var from = DateTimeOffset.Now.Date.AddHours(15);
 
             // Act 
-            var response = await client.GetAsync($"/api/v1/rentals/{userId}/upcoming");
+            var response = await client.GetAsync($"/api/v1/rentals/{userId}/upcoming?from={from}");
             var result = await SerializationHelper.GetDeserializedValue<IEnumerable<RentalResponse>>(response);
 
             // Assert
             result.Should().NotBeNull();
-            result.Should().HaveCount(3);
+            result.Should().HaveCount(2);
         }
 
-        [Theory]
-        [InlineData(1)]
-        public async Task Get_AvailableCars_ShouldReturnAListOfCarsOnDate(int userId)
+        [Fact]
+        public async Task Get_AvailableCars_ShouldReturnAListOfCarsOnDate()
         {
             // Arrange
             var client = _factory.CreateClient();
+            var from = DateTimeOffset.Now.Date.AddHours(15);
 
             // Act 
-            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>($"/api/v1/rentals/{userId}/available-cars");
+            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>($"/api/v1/rentals/available-cars?from={from}");
 
             // Assert
             result.Should().NotBeNull();

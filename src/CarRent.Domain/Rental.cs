@@ -20,9 +20,14 @@ namespace CarRent.Domain
         #endregion
 
         /// <summary>
-        /// Date on which the rental occured
+        /// Date and time on which the rental started
         /// </summary>
-        public DateOnly RentDate { get; set; }
+        public DateTimeOffset From { get; set; }
+
+        /// <summary>
+        /// Date and time on which the rental ended
+        /// </summary>
+        public DateTimeOffset To { get; set; }
 
         #region Parents
         /// <summary>
