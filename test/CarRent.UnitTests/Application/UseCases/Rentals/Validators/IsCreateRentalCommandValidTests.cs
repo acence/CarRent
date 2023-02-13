@@ -21,15 +21,15 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
         public IsCreateRentalCommandValidTests()
         {
             _userRepository = new Mock<IUserRepository>();
-            _userRepository.Setup(x => x.DoesUserExistAsync(1)).ReturnsAsync(true);
-            _userRepository.Setup(x => x.DoesUserExistAsync(2)).ReturnsAsync(false);
+            _userRepository.Setup(x => x.DoesUserExistAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _userRepository.Setup(x => x.DoesUserExistAsync(2, It.IsAny<CancellationToken>())).ReturnsAsync(false);
             _carRepository = new Mock<ICarRepository>();
-            _carRepository.Setup(x => x.DoesCarExistAsync(1)).ReturnsAsync(true);
-            _carRepository.Setup(x => x.DoesCarExistAsync(2)).ReturnsAsync(false);
-            _carRepository.Setup(x => x.DoesCarExistAsync(3)).ReturnsAsync(true);
+            _carRepository.Setup(x => x.DoesCarExistAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _carRepository.Setup(x => x.DoesCarExistAsync(2, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _carRepository.Setup(x => x.DoesCarExistAsync(3, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _rentalRepository = new Mock<IRentalRepository>();
-            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 1)).ReturnsAsync(false);
-            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 3)).ReturnsAsync(true);
+            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 1, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _rentalRepository.Setup(x => x.DoesRentalExistForCarAsync(It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>(), 3, It.IsAny<CancellationToken>())).ReturnsAsync(true);
             _validator = new IsCreateRentalCommandValid(_userRepository.Object, _carRepository.Object, _rentalRepository.Object);
         }
         [Theory]

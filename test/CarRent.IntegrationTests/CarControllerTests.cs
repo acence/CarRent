@@ -10,6 +10,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using CarRent.WebApi.Models.Response;
 using CarRent.WebApi.Models.Request.Car;
+using Moq;
 
 namespace CarRent.IntegrationTests
 {
@@ -74,7 +75,7 @@ namespace CarRent.IntegrationTests
             carResponse.Id.Should().Be(7);
 
             _carRepository.Select().ToList().Should().HaveCount(7);
-            var dbCar = await _carRepository.GetById(carResponse.Id);
+            var dbCar = await _carRepository.GetById(carResponse.Id, It.IsAny<CancellationToken>());
             dbCar.Should().BeEquivalentTo(car);
         }
 
@@ -94,7 +95,7 @@ namespace CarRent.IntegrationTests
             carResponse.Id.Should().Be(4);
 
             _carRepository.Select().ToList().Should().HaveCount(6);
-            var dbCar = await _carRepository.GetById(carResponse.Id);
+            var dbCar = await _carRepository.GetById(carResponse.Id, It.IsAny<CancellationToken>());
             dbCar.Should().BeEquivalentTo(car);
         }
 
@@ -114,7 +115,7 @@ namespace CarRent.IntegrationTests
 
         [Theory]
         [ClassData(typeof(UpdateCarInvalidData))]
-        public async Task Update_CarWithInvalidData_ReturnsUpdatedCar(int id, UpdateCarRequest car, int statusCode, string message)
+        public async Task Update_CarWithInvalidData_ReturnsUpdatedCar(int id, UpdateCarRequest car, int statusCode)
         {
             // Arrange
             var client = _factory.CreateClient();

@@ -23,13 +23,13 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
         {
             var rental = _mapper.Map<Rental>(request);
 
-            var affectedRecords = await _rentalRepository.Insert(rental);
+            var affectedRecords = await _rentalRepository.Insert(rental, cancellationToken);
             if(affectedRecords == 0)
             { 
                 throw new RentalNotCreatedException();
             }
 
-            rental = await _rentalRepository.GetByIdWithParentsAsync(rental.Id);
+            rental = await _rentalRepository.GetByIdWithParentsAsync(rental.Id, cancellationToken);
 
             return rental;
         }

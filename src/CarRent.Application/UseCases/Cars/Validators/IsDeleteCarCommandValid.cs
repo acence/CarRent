@@ -18,7 +18,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
             RuleFor(x => x.Id)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .MustAsync( async (x, cancellation) => await carRepository.DoesCarExistAsync(x))
+                .MustAsync( async (x, cancellation) => await carRepository.DoesCarExistAsync(x, cancellation))
                 .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);

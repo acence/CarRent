@@ -18,8 +18,8 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
         public IsCreateNewCarCommandValidTests()
         {
             _carRepository = new Mock<ICarRepository>();
-            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C1")).ReturnsAsync(false);
-            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C2")).ReturnsAsync(true);
+            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C1", It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C2", It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             _validator = new IsCreateNewCarCommandValid(_carRepository.Object);
         }

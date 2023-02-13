@@ -16,7 +16,7 @@ namespace CarRent.Application.UseCases.Rentals.Handlers
         }
         public async Task<IEnumerable<Rental>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _rentalRepository.GetRentalsByUserIdAsync(request.From, request.UserId);
+            return await _rentalRepository.GetRentalsByUserIdAsync(request.From, request.UserId, cancellationToken);
         }
 
         public class Query: IRequest<IEnumerable<Rental>>

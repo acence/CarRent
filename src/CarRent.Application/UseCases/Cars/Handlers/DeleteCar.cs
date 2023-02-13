@@ -25,7 +25,7 @@ namespace CarRent.Application.UseCases.Cars.Handlers
         {
             var car = _mapper.Map<Car>(request);
 
-            var affectedResults = await _carRepository.Delete(car);
+            var affectedResults = await _carRepository.Delete(car, cancellationToken);
             if (affectedResults == 0)
             {
                 throw new CarNotDeletedException();

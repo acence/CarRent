@@ -18,10 +18,10 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
         public IsUpdateCarCommandValidTests()
         {
             _carRepository = new Mock<ICarRepository>();
-            _carRepository.Setup(x => x.DoesCarExistAsync(1)).ReturnsAsync(true);
-            _carRepository.Setup(x => x.DoesCarExistAsync(2)).ReturnsAsync(false);
-            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C1")).ReturnsAsync(false);
-            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C2")).ReturnsAsync(true);
+            _carRepository.Setup(x => x.DoesCarExistAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _carRepository.Setup(x => x.DoesCarExistAsync(2, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C1", It.IsAny<CancellationToken>())).ReturnsAsync(false);
+            _carRepository.Setup(x => x.IsCarUniqueIdInUseAsync("C2", It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
             _validator = new IsUpdateCarCommandValid(_carRepository.Object);
         }

@@ -13,11 +13,11 @@ namespace CarRent.Database.Repositories
         {
         }
 
-        public async Task<bool> DoesUserExistAsync(int userId)
+        public async Task<bool> DoesUserExistAsync(int userId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Where(x => x.Id== userId)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
     }
 }

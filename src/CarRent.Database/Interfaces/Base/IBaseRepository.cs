@@ -5,10 +5,10 @@ namespace CarRent.Database.Interfaces.Base
     public interface IBaseRepository<T>
     {
         IQueryable<T> Select();
-        Task<T?> GetById(int id);
-        Task<int> Insert(T entity);
-        Task<int> Update(T entity);
-        Task<int> InsertOrUpdate(Expression<Func<T, bool>> comparer, T entity);
-        Task<int> Delete(T entity);
+        Task<T?> GetById(int id, CancellationToken cancellationToken);
+        Task<int> Insert(T entity, CancellationToken cancellationToken);
+        Task<int> Update(T entity, CancellationToken cancellationToken);
+        Task<int> InsertOrUpdate(Expression<Func<T, bool>> comparer, T entity, CancellationToken cancellationToken);
+        Task<int> Delete(T entity, CancellationToken cancellationToken);
     }
 }

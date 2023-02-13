@@ -15,7 +15,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
         {
             _rentalRepository = new Mock<IRentalRepository>();
             _rentalRepository
-                .Setup(x => x.GetRentalsByUserIdAsync(It.IsAny<DateTimeOffset>(), It.IsAny<int>()))
+                .Setup(x => x.GetRentalsByUserIdAsync(It.IsAny<DateTimeOffset>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<Rental> { new Rental { Id = 1, CarId = 1, UserId = 1 } });
         }
         [Fact]

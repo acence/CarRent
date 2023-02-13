@@ -34,12 +34,12 @@ namespace FitnessApp.Database.Base
             return Entities.AsNoTracking();
         }
 
-        public virtual async Task<T?> GetById(int id)
+        public virtual async Task<T?> GetById(int id, CancellationToken cancellationToken)
         {
             return await Entities.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual async Task<int> Insert(T entity)
+        public virtual async Task<int> Insert(T entity, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(entity);
 
@@ -48,7 +48,7 @@ namespace FitnessApp.Database.Base
             return await _context.SaveChangesAsync();
         }
 
-        public virtual async Task<int> Update(T entity)
+        public virtual async Task<int> Update(T entity, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(entity);
 
@@ -57,19 +57,19 @@ namespace FitnessApp.Database.Base
             return await _context.SaveChangesAsync();
         }
 
-        public virtual async Task<int> InsertOrUpdate(Expression<Func<T, bool>> comparer, T entity)
+        public virtual async Task<int> InsertOrUpdate(Expression<Func<T, bool>> comparer, T entity, CancellationToken cancellationToken)
         {
             if (!Entities.Any(comparer))
             {
-                return await Insert(entity);
+                return await Insert(entity, cancellationToken);
             }
             else
             {
-                return await Update(entity);
+                return await Update(entity, cancellationToken);
             }
         }
 
-        public virtual async Task<Int32> Delete(T entity)
+        public virtual async Task<Int32> Delete(T entity, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(entity);
 

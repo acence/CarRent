@@ -19,7 +19,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
             RuleFor(x => x.Id)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .MustAsync(async (x, cancellation) => await carRepository.DoesCarExistAsync(x))
+                .MustAsync(async (x, cancellation) => await carRepository.DoesCarExistAsync(x, cancellation))
                 .WithMessage("Must update a car that exists in the system")
                 .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
@@ -42,7 +42,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .MaximumLength(13)
                 .Must(x => x.StartsWith("C"))
                 .WithMessage("Unique Id must start with C")
-                .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x))
+                .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x, cancellation))
                 .WithMessage("Unique Id must already esists in system")
                 .WithErrorCode(ValidationErrorCodes.NotUnique)
                 .WithSeverity(Severity.Error);

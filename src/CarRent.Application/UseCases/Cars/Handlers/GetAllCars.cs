@@ -17,7 +17,7 @@ namespace CarRent.Application.UseCases.Cars.Handlers
         }
         public async Task<IEnumerable<Car>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _carRepository.GetAllAsync(request.Make, request.Model, request.UniqueId);
+            return await _carRepository.GetAllAsync(request.Make, request.Model, request.UniqueId, cancellationToken);
         }
 
         public class Query : IRequest<IEnumerable<Car>>

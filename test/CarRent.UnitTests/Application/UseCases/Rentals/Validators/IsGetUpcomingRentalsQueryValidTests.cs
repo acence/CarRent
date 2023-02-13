@@ -18,8 +18,8 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
         public IsGetUpcomingRentalsQueryValidTests()
         {
             _userRepository = new Mock<IUserRepository>();
-            _userRepository.Setup(x => x.DoesUserExistAsync(1)).ReturnsAsync(true);
-            _userRepository.Setup(x => x.DoesUserExistAsync(2)).ReturnsAsync(false);
+            _userRepository.Setup(x => x.DoesUserExistAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+            _userRepository.Setup(x => x.DoesUserExistAsync(2, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
             _validator = new IsGetUpcomingRentalsQueryValid(_userRepository.Object);
         }

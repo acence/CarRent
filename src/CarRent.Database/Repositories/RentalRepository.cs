@@ -18,28 +18,28 @@ namespace CarRent.Database.Repositories
         {
         }
 
-        public async Task<IEnumerable<Rental>> GetRentalsByUserIdAsync(DateTimeOffset from, int userId)
+        public async Task<IEnumerable<Rental>> GetRentalsByUserIdAsync(DateTimeOffset from, int userId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Where(x => x.UserId == userId && x.From >= from)
                 .Include(x => x.User)
                 .Include(x => x.Car)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> DoesRentalExistForCarAsync(DateTimeOffset from, DateTimeOffset to, int carId)
+        public async Task<bool> DoesRentalExistForCarAsync(DateTimeOffset from, DateTimeOffset to, int carId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Where(x => x.CarId == carId && x.From >= from && x.To <= to)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
 
-        public async Task<Rental> GetByIdWithParentsAsync(int rentalId)
+        public async Task<Rental> GetByIdWithParentsAsync(int rentalId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Include(x => x.Car)
                 .Include(x => x.User)
-                .FirstAsync(x => x.Id == rentalId);
+                .FirstAsync(x => x.Id == rentalId, cancellationToken);
         }
     }
 }

@@ -35,11 +35,11 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
             _mapper = new Mapper(mapperConfig);
 
             _rentalRepository = new Mock<IRentalRepository>();
-            _rentalRepository.Setup(x => x.GetByIdWithParentsAsync(1)).ReturnsAsync(new Rental { CarId = 1 } );
-            _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _successData.CarId)))
-                .Callback<Rental>(x => x.Id = 1)
+            _rentalRepository.Setup(x => x.GetByIdWithParentsAsync(1, It.IsAny<CancellationToken>())).ReturnsAsync(new Rental { CarId = 1 } );
+            _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _successData.CarId), It.IsAny<CancellationToken>()))
+                .Callback<Rental, CancellationToken>((x, cancellation) => x.Id = 1)
                 .ReturnsAsync(1);
-            _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _failData.CarId)))
+            _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _failData.CarId), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(0);
         }
         [Fact]

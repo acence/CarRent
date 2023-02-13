@@ -38,10 +38,14 @@ namespace CarRent.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ServerErrorResponse))]
-        public async Task<IEnumerable<CarResponse>> Get(string? make, string? model, string? uniqueId)
+        public async Task<IActionResult> Get(string? make, string? model, string? uniqueId)
         {
-            var result = await _mediator.Send(new GetAllCars.Query { Make = make, Model = model, UniqueId = uniqueId });
-            return _mapper.Map<IEnumerable<CarResponse>>(result);
+            var query = new GetAllCars.Query { Make = make, Model = model, UniqueId = uniqueId };
+            return await ProcessResponse(async () =>
+            {
+                var result = await _mediator.Send(query);
+                return _mapper.Map<IEnumerable<CarResponse>>(result);
+            });
         }
 
         /// <summary>

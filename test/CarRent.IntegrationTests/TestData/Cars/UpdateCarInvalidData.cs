@@ -4,12 +4,12 @@ using Moq;
 
 namespace CarRent.IntegrationTests.TestData.Cars
 {
-    public class UpdateCarInvalidData : TheoryData<int, UpdateCarRequest, int, string>
+    public class UpdateCarInvalidData : TheoryData<int, UpdateCarRequest, int>
     {
         public UpdateCarInvalidData()
         {
-            Add(44, new UpdateCarRequest { Make = "TestCar2", Model = "TestModel2", UniqueId = "C1234" }, StatusCodes.Status404NotFound, "Car not found");
-            Add(4, new UpdateCarRequest { Make = "TestCar2", Model = "TestModel2", UniqueId = "" }, StatusCodes.Status400BadRequest, "UniqueId is required");
+            Add(44, new UpdateCarRequest { Make = "TestCar2", Model = "TestModel2", UniqueId = "C1234" }, StatusCodes.Status404NotFound);
+            Add(4, new UpdateCarRequest { Make = "TestCar2", Model = "TestModel2", UniqueId = "" }, StatusCodes.Status400BadRequest);
         }
     }
 }

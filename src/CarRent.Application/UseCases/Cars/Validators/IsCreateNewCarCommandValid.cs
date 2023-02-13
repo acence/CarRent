@@ -32,7 +32,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .MaximumLength(13)
                 .Must(x => x.StartsWith("C"))
                 .WithMessage("Unique Id must start with C")
-                .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x))
+                .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x, cancellation))
                 .WithErrorCode(ValidationErrorCodes.NotUnique)
                 .WithMessage("Unique Id must already esists in system")
                 .WithSeverity(Severity.Error);

@@ -31,9 +31,9 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Handlers
             _mapper = new Mapper(mapperConfig);
 
             _carRepository = new Mock<ICarRepository>();
-            _carRepository.Setup(x => x.Update(It.Is<Car>(x => x.Id == _successData.Id)))
+            _carRepository.Setup(x => x.Update(It.Is<Car>(x => x.Id == _successData.Id), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(1);
-            _carRepository.Setup(x => x.Update(It.Is<Car>(x => x.Id == _failData.Id)))
+            _carRepository.Setup(x => x.Update(It.Is<Car>(x => x.Id == _failData.Id), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(0);
         }
 

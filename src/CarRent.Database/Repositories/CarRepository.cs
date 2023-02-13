@@ -13,20 +13,18 @@ namespace CarRent.Database.Repositories
         {
         }
 
-        public async Task<IEnumerable<Car>> GetAllAsync(string? make, string? model, string? uniqueId)
+        public async Task<IEnumerable<Car>> GetAllAsync(string? make, string? model, string? uniqueId, CancellationToken cancellationToken)
         {
             var queryable = Select();
-
-            var test = await Select().ToListAsync();
 
             if (make != null) {  queryable = queryable.Where(x => x.Make.Equals(make, StringComparison.InvariantCultureIgnoreCase)); }
             if (model != null) { queryable = queryable.Where(x => x.Model.Equals(model, StringComparison.InvariantCultureIgnoreCase)); }
             if (uniqueId != null) { queryable = queryable.Where(x => x.UniqueId.StartsWith(uniqueId, StringComparison.InvariantCultureIgnoreCase)); }
 
-            return await queryable.ToListAsync();
+            return await queryable.ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from, DateTimeOffset? to)
+        public async Task<IEnumerable<Car>> GetAvailableCarsAsync(DateTimeOffset from, DateTimeOffset? to, CancellationToken cancellationToken)
         {
             var queryable = Select();
 
@@ -40,20 +38,20 @@ namespace CarRent.Database.Repositories
             }
 
             return await queryable
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
-        public async Task<bool> DoesCarExistAsync(int carId)
+        public async Task<bool> DoesCarExistAsync(int carId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Where(x => x.Id == carId)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
 
-        public async Task<bool> IsCarUniqueIdInUseAsync(string uniqueId)
+        public async Task<bool> IsCarUniqueIdInUseAsync(string uniqueId, CancellationToken cancellationToken)
         {
             return await Select()
                 .Where(x => x.UniqueId == uniqueId)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
     }
 }

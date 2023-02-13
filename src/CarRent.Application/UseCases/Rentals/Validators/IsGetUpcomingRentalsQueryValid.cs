@@ -17,7 +17,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
             RuleFor(x => x.UserId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .MustAsync(async (x, cancellation) => await userRepository.DoesUserExistAsync(x))
+                .MustAsync(async (x, cancellation) => await userRepository.DoesUserExistAsync(x, cancellation))
                 .WithMessage("Must request rentals for an existing user in the system")
                 .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
