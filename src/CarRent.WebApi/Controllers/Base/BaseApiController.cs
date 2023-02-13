@@ -3,7 +3,7 @@ using CarRent.WebApi.Models.Response;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarRent.WebApi.Controllers
+namespace CarRent.WebApi.Controllers.Base
 {
     public abstract class BaseApiController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace CarRent.WebApi.Controllers
                     return BadRequest(MapErrors(validationEx));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, new ServerErrorResponse { Message = ex.Message });

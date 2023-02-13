@@ -2,6 +2,7 @@
 using CarRent.Application.Behaviours;
 using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Domain;
+using CarRent.WebApi.Controllers.Base;
 using CarRent.WebApi.Models.Request.Car;
 using CarRent.WebApi.Models.Response;
 using FluentValidation;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Application.UseCases.Rentals.Handlers;
+using CarRent.WebApi.Controllers.Base;
 using CarRent.WebApi.Models.Request.Rentals;
 using CarRent.WebApi.Models.Response;
 using MediatR;
