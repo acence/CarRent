@@ -1,11 +1,4 @@
-﻿using CarRent.Application.UseCases.Cars.Handlers;
-using CarRent.Domain;
-using CarRent.WebApi.Models.Request.Car;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarRent.WebApi.Models.Request.Car;
 
 namespace CarRent.IntegrationTests.TestData.Cars
 {

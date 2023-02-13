@@ -111,5 +111,19 @@ namespace CarRent.IntegrationTests
             // Assert
             _carRepository.Select().ToList().Should().HaveCount(5);
         }
+
+        [Theory]
+        [ClassData(typeof(UpdateCarInvalidData))]
+        public async Task Update_CarWithInvalidData_ReturnsUpdatedCar(int id, UpdateCarRequest car, int statusCode, string message)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act 
+            var response = await client.PutAsJsonAsync($"/api/v1/cars/{id}", car);
+            response.StatusCode.Should().Be((System.Net.HttpStatusCode)statusCode);
+
+            // Assert
+        }
     }
 }
