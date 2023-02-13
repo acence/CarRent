@@ -18,10 +18,11 @@ namespace CarRent.Application.Behaviours
         public const string NotEmpty = "NotEmptyValidator";
         public const string Enum = "EnumValidator";
 
-
+        #region Custom error codes
         public const string NotFound = "NotFoundValidator";
         public const string NotUnique = "NotUniqueValidator";
         public const string TooLong = "TooLongValidator";
         public const string NotAvailable = "NotAvailableValidator";
+        #endregion
     }
 }
