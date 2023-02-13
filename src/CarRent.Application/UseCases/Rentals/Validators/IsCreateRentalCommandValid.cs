@@ -17,14 +17,14 @@ namespace CarRent.Application.UseCases.Rentals.Validators
             RuleFor(x => x.UserId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .Must(x => userRepository.DoesUserExistAsync(x).GetAwaiter().GetResult())
+                .MustAsync(async (x, cancellation) => await userRepository.DoesUserExistAsync(x))
                 .WithMessage("Must request rentals for an existing user in the system")
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.CarId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .Must(x => carRepository.DoesCarExistAsync(x).GetAwaiter().GetResult())
+                .MustAsync(async(x, cancellation) => await carRepository.DoesCarExistAsync(x))
                 .WithMessage("Must request rentals for an existing car in the system")
                 .WithSeverity(Severity.Error);
 
@@ -46,7 +46,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
 
             RuleFor(x => x.From)
                 .Cascade(CascadeMode.Stop)
-                .Must((command, _) => !rentalRepository.DoesRentalExistForCarAsync(command.From, command.To, command.CarId).GetAwaiter().GetResult())
+                .MustAsync(async (command, _, cancellation) => !await rentalRepository.DoesRentalExistForCarAsync(command.From, command.To, command.CarId))
                 .WithName("(From, To)")
                 .WithMessage("Must request rentals for an available car in the system")
                 .WithSeverity(Severity.Error);

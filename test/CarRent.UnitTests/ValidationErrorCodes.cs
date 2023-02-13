@@ -14,6 +14,7 @@ namespace CarRent.UnitTests
         public const string LessThan = "LessThanValidator";
         public const string MaximumLength = "MaximumLengthValidator";
         public const string Predicate = "PredicateValidator";
+        public const string AsyncPredicate = "AsyncPredicateValidator";
         public const string NotEmpty = "NotEmptyValidator";
         public const string Enum = "EnumValidator";
     }

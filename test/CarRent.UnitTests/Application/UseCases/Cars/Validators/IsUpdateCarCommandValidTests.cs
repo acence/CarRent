@@ -28,12 +28,13 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
 
         [Theory]
         [ClassData(typeof(UpdateCarValidData))]
-        public void WhenValidatingUpdateCarCommand_WithValidData_ExpectNoError(UpdateCar.Command command)
+        public async Task WhenValidatingUpdateCarCommand_WithValidData_ExpectNoError(UpdateCar.Command command)
         {
-            Action action = () => _validator.ValidateAndThrow(command);
+            var result = await _validator.ValidateAsync(command);
 
-            // Assert/Act
-            action.Should().NotThrow();
+            result.Should().NotBeNull();
+            result.IsValid.Should().BeTrue();
+            result.Errors.Should().BeEmpty();
         }
 
         [Theory]

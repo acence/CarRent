@@ -34,12 +34,13 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
         }
         [Theory]
         [ClassData(typeof(CreateRentalValidData))]
-        public void WhenValidatingGetAvailableCarsQuery_WithValidData_ExpectNoError(CreateRental.Command command)
+        public async Task WhenValidatingGetAvailableCarsQuery_WithValidData_ExpectNoError(CreateRental.Command command)
         {
-            Action action = () => _validator.ValidateAndThrow(command);
+            var result = await _validator.ValidateAsync(command);
 
-            // Assert/Act
-            action.Should().NotThrow();
+            result.Should().NotBeNull();
+            result.IsValid.Should().BeTrue();
+            result.Errors.Should().BeEmpty();
         }
 
         [Theory]

@@ -7,7 +7,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
         public UpdateCarInvalidData()
         {
             Add(new UpdateCar.Command() { Id = 0, Make = "TestMake", Model = "TestModel", UniqueId = "C12345" }, new List<(string, string)> { ("Id", ValidationErrorCodes.NotEmpty) });
-            Add(new UpdateCar.Command() { Id = 2, Make = "TestMake", Model = "TestModel", UniqueId = "C12345" }, new List<(string, string)> { ("Id", ValidationErrorCodes.Predicate) });
+            Add(new UpdateCar.Command() { Id = 2, Make = "TestMake", Model = "TestModel", UniqueId = "C12345" }, new List<(string, string)> { ("Id", ValidationErrorCodes.AsyncPredicate) });
 
             Add(new UpdateCar.Command() { Id = 1, Make = null!, Model = "TestModel", UniqueId = "C12345" }, new List<(string, string)> { ("Make", ValidationErrorCodes.NotEmpty) });
             Add(new UpdateCar.Command() { Id = 1, Make = "", Model = "TestModel", UniqueId = "C12345" }, new List<(string, string)> { ("Make", ValidationErrorCodes.NotEmpty) });
@@ -20,7 +20,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
             Add(new UpdateCar.Command() { Id = 1, Make = "TestMake", Model = "TestModel", UniqueId = null! }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.NotEmpty) });
             Add(new UpdateCar.Command() { Id = 1, Make = "TestMake", Model = "TestModel", UniqueId = "" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.NotEmpty) });
             Add(new UpdateCar.Command() { Id = 1, Make = "TestMake", Model = "TestModel", UniqueId = "C" + new string(Enumerable.Repeat('1', 500).ToArray()) }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.MaximumLength) });
-            Add(new UpdateCar.Command() { Id = 1, Make = "TestMake", Model = "TestModel", UniqueId = "C2" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.Predicate) });
+            Add(new UpdateCar.Command() { Id = 1, Make = "TestMake", Model = "TestModel", UniqueId = "C2" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.AsyncPredicate) });
         }
     }
 }
