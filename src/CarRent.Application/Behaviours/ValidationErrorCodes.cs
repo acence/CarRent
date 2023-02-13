@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarRent.UnitTests
+namespace CarRent.Application.Behaviours
 {
     public static class ValidationErrorCodes
     {
@@ -17,5 +17,11 @@ namespace CarRent.UnitTests
         public const string AsyncPredicate = "AsyncPredicateValidator";
         public const string NotEmpty = "NotEmptyValidator";
         public const string Enum = "EnumValidator";
+
+
+        public const string NotFound = "NotFoundValidator";
+        public const string NotUnique = "NotUniqueValidator";
+        public const string TooLong = "TooLongValidator";
+        public const string NotAvailable = "NotAvailableValidator";
     }
 }

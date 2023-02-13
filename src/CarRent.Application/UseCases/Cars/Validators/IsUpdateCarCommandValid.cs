@@ -1,4 +1,5 @@
-﻿using CarRent.Application.Exceptions.CarExceptions;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.Exceptions.CarExceptions;
 using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using CarRent.Database.Repositories;
@@ -20,6 +21,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .NotEmpty()
                 .MustAsync(async (x, cancellation) => await carRepository.DoesCarExistAsync(x))
                 .WithMessage("Must update a car that exists in the system")
+                .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.Make)
@@ -42,6 +44,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .WithMessage("Unique Id must start with C")
                 .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x))
                 .WithMessage("Unique Id must already esists in system")
+                .WithErrorCode(ValidationErrorCodes.NotUnique)
                 .WithSeverity(Severity.Error);
         }
     }

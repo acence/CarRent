@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Rentals.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Rentals.Handlers;
 
 namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
 {

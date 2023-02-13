@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Cars.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using FluentValidation;
 using System;
@@ -32,6 +33,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .Must(x => x.StartsWith("C"))
                 .WithMessage("Unique Id must start with C")
                 .MustAsync(async (x, cancellation) => !await carRepository.IsCarUniqueIdInUseAsync(x))
+                .WithErrorCode(ValidationErrorCodes.NotUnique)
                 .WithMessage("Unique Id must already esists in system")
                 .WithSeverity(Severity.Error);
         }

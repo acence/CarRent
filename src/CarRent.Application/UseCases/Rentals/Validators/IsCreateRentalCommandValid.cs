@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Rentals.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Rentals.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using CarRent.Database.Repositories;
 using FluentValidation;
@@ -19,6 +20,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .NotEmpty()
                 .MustAsync(async (x, cancellation) => await userRepository.DoesUserExistAsync(x))
                 .WithMessage("Must request rentals for an existing user in the system")
+                .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.CarId)
@@ -26,6 +28,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .NotEmpty()
                 .MustAsync(async(x, cancellation) => await carRepository.DoesCarExistAsync(x))
                 .WithMessage("Must request rentals for an existing car in the system")
+                .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.From)
@@ -42,6 +45,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .GreaterThan(x => x.From)
                 .Must((command, _) => (command.To - command.From).TotalHours <= 2)
                 .WithMessage("Rental duration cannot exceed two hours")
+                .WithErrorCode(ValidationErrorCodes.TooLong)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.From)
@@ -49,6 +53,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .MustAsync(async (command, _, cancellation) => !await rentalRepository.DoesRentalExistForCarAsync(command.From, command.To, command.CarId))
                 .WithName("(From, To)")
                 .WithMessage("Must request rentals for an available car in the system")
+                .WithErrorCode(ValidationErrorCodes.NotAvailable)
                 .WithSeverity(Severity.Error);
 
 

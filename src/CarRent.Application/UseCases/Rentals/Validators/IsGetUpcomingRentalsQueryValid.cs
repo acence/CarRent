@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Rentals.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Rentals.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using FluentValidation;
 using System;
@@ -16,8 +17,9 @@ namespace CarRent.Application.UseCases.Rentals.Validators
             RuleFor(x => x.UserId)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .Must(x => userRepository.DoesUserExistAsync(x).GetAwaiter().GetResult())
+                .MustAsync(async (x, cancellation) => await userRepository.DoesUserExistAsync(x))
                 .WithMessage("Must request rentals for an existing user in the system")
+                .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.From)

@@ -13,12 +13,12 @@ namespace CarRent.WebApi.Controllers
     /// </summary>
     [Route("api/v1/rentals")]
     [ApiController]
-    public class RentalController : ControllerBase
+    public class RentalController : BaseApiController
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public RentalController(IMediator mediator, IMapper mapper)
+        public RentalController(IMediator mediator, IMapper mapper, ILogger<RentalController> logger) : base(logger)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -33,13 +33,18 @@ namespace CarRent.WebApi.Controllers
         [HttpGet]
         [Route("{userId}/upcoming")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<RentalResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<RentalResponse>> GetUpcoming(int userId, DateTimeOffset? from)
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<ValidationErrorResponse>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ServerErrorResponse))]
+        public async Task<IActionResult> GetUpcoming(int userId, DateTimeOffset? from)
         {
             from = from ?? DateTimeOffset.Now;
-            var result = await _mediator.Send(new GetUpcomingRentals.Query { From = from.Value, UserId = userId });
-            return _mapper.Map<IEnumerable<RentalResponse>>(result);
+            var query = new GetUpcomingRentals.Query { From = from.Value, UserId = userId };
+
+            return await ProcessResponse(async () =>
+            {
+                var result = await _mediator.Send(query);
+                return _mapper.Map<IEnumerable<RentalResponse>>(result);
+            });
         }
 
         /// <summary>
@@ -51,12 +56,16 @@ namespace CarRent.WebApi.Controllers
         [HttpGet]
         [Route("available-cars")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<CarResponse>> GetAvailableCars(DateTimeOffset from, DateTimeOffset? to)
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<ValidationErrorResponse>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ServerErrorResponse))]
+        public async Task<IActionResult> GetAvailableCars(DateTimeOffset from, DateTimeOffset? to)
         {
-            var result = await _mediator.Send(new GetAvailableCars.Query { From = from, To = to });
-            return _mapper.Map<IEnumerable<CarResponse>>(result);
+            var query = new GetAvailableCars.Query { From = from, To = to };
+            return await ProcessResponse(async () =>
+            {
+                var result = await _mediator.Send(query);
+                return _mapper.Map<IEnumerable<CarResponse>>(result);
+            });
         }
 
         /// <summary>
@@ -66,13 +75,16 @@ namespace CarRent.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RentalResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<RentalResponse> CreateRental(CreateRentalRequest request)
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IEnumerable<ValidationErrorResponse>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ServerErrorResponse))]
+        public async Task<IActionResult> CreateRental(CreateRentalRequest request)
         {
             var command = _mapper.Map<CreateRental.Command>(request);
-            var result = await _mediator.Send(command);
-            return _mapper.Map<RentalResponse>(result);
+            return await ProcessResponse(async () =>
+            {
+                var result = await _mediator.Send(command);
+                return _mapper.Map<RentalResponse>(result);
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Cars.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Cars.Handlers;
 
 namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
 {
@@ -7,7 +8,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
         public DeleteCarInvalidData()
         {
             Add(new DeleteCar.Command() { Id = 0 }, new List<(string, string)> { ("Id", ValidationErrorCodes.NotEmpty) });
-            Add(new DeleteCar.Command() { Id = 2 }, new List<(string, string)> { ("Id", ValidationErrorCodes.AsyncPredicate) });
+            Add(new DeleteCar.Command() { Id = 2 }, new List<(string, string)> { ("Id", ValidationErrorCodes.NotFound) });
         }
     }
 }

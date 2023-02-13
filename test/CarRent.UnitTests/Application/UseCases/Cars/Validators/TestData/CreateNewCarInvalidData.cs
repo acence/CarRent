@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Cars.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Cars.Handlers;
 
 namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
 {
@@ -17,7 +18,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Validators.TestData
             Add(new CreateNewCar.Command() { Make = "TestMake", Model = "TestModel", UniqueId = null! }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.NotEmpty) });
             Add(new CreateNewCar.Command() { Make = "TestMake", Model = "TestModel", UniqueId = "" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.NotEmpty) });
             Add(new CreateNewCar.Command() { Make = "TestMake", Model = "TestModel", UniqueId = "C" + new string(Enumerable.Repeat('1', 500).ToArray()) }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.MaximumLength) });
-            Add(new CreateNewCar.Command() { Make = "TestMake", Model = "TestModel", UniqueId = "C2" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.AsyncPredicate) });
+            Add(new CreateNewCar.Command() { Make = "TestMake", Model = "TestModel", UniqueId = "C2" }, new List<(string, string)> { ("UniqueId", ValidationErrorCodes.NotUnique) });
         }
     }
 }

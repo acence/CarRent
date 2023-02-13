@@ -1,4 +1,5 @@
-﻿using CarRent.Application.UseCases.Cars.Handlers;
+﻿using CarRent.Application.Behaviours;
+using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using CarRent.Database.Repositories;
 using FluentValidation;
@@ -18,6 +19,7 @@ namespace CarRent.Application.UseCases.Cars.Validators
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .MustAsync( async (x, cancellation) => await carRepository.DoesCarExistAsync(x))
+                .WithErrorCode(ValidationErrorCodes.NotFound)
                 .WithMessage("Must update a car that exists in the system")
                 .WithSeverity(Severity.Error);
         }
