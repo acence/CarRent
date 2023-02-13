@@ -1,5 +1,4 @@
-﻿using CarRent.WebApi.Converters;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace CarRent.IntegrationTests.Helpers
@@ -12,7 +11,6 @@ namespace CarRent.IntegrationTests.Helpers
             Converters =
                 {
                     new JsonStringEnumConverter(),
-                    new DateOnlyJsonConverter()
                 }
         };
 

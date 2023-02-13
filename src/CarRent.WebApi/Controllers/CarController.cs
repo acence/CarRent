@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Domain;
-using CarRent.WebApi.ResponseModels;
+using CarRent.WebApi.Models.Request.Car;
+using CarRent.WebApi.Models.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRent.WebApi.Controllers
 {
     /// <summary>
-    /// REST API controller for car specific functions
+    /// Rest API controller for car specific functions
     /// </summary>
     [Route("api/v1/cars")]
     [ApiController]
@@ -31,7 +32,7 @@ namespace CarRent.WebApi.Controllers
         /// <param name="make">Car make</param>
         /// <param name="model">Car model</param>
         /// <param name="uniqueId">Car unique id</param>
-        /// <returns></returns>
+        /// <returns>List of cars in system</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -41,29 +42,49 @@ namespace CarRent.WebApi.Controllers
             return _mapper.Map<IEnumerable<CarResponse>>(result);
         }
 
+        /// <summary>
+        /// Creates a new car in the system
+        /// </summary>
+        /// <param name="request">Request model for creating a new car</param>
+        /// <returns>Record for created car</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IEnumerable<CarResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CarResponse> Post([FromBody] CreateNewCar.Command command)
+        public async Task<CarResponse> Post([FromBody] CreateNewCarRequest request)
         {
+            var command = _mapper.Map<CreateNewCar.Command>(request);
             var result = await _mediator.Send(command);
             return _mapper.Map<CarResponse>(result);
         }
 
+        /// <summary>
+        /// Updates an existing car in system
+        /// </summary>
+        /// <param name="id">Id of the car, provided in route as per Rest guidelines</param>
+        /// <param name="request">The rest of the data for updating the car entry</param>
+        /// <returns>Record for updated car</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<CarResponse> Put(int id, [FromBody] UpdateCar.Command command)
+        public async Task<CarResponse> Put(int id, [FromBody] UpdateCarRequest request)
         {
+            var command = _mapper.Map<UpdateCar.Command>(request);
             command.Id = id;
             var result = await _mediator.Send(command);
 
             return _mapper.Map<CarResponse>(result);
         }
 
+        /// <summary>
+        /// Deletes a car from the system
+        /// </summary>
+        /// <param name="id">Id of the car to be deleted</param>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task Delete(int id)

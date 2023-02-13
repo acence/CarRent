@@ -3,7 +3,8 @@ using CarRent.Database.Interfaces.Repositories;
 using CarRent.IntegrationTests.Configuration;
 using CarRent.IntegrationTests.Helpers;
 using CarRent.IntegrationTests.TestData.Rentals;
-using CarRent.WebApi.ResponseModels;
+using CarRent.WebApi.Models.Request.Rentals;
+using CarRent.WebApi.Models.Response;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +64,7 @@ namespace CarRent.IntegrationTests
 
         [Theory]
         [ClassData(typeof(CreateRentalData))]
-        public async Task Create_RentalWithValidData_ReturnsCreatedCar(CreateRental.Command rental)
+        public async Task Create_RentalWithValidData_ReturnsCreatedCar(CreateRentalRequest rental)
         {// Arrange
             var client = _factory.CreateClient();
 

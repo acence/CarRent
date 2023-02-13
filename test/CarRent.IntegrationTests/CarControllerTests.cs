@@ -3,12 +3,13 @@ using CarRent.Database.Interfaces.Repositories;
 using CarRent.IntegrationTests.TestData.Cars;
 using CarRent.IntegrationTests.Configuration;
 using CarRent.IntegrationTests.Helpers;
-using CarRent.WebApi.ResponseModels;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Json;
 using System.Text.Json;
+using CarRent.WebApi.Models.Response;
+using CarRent.WebApi.Models.Request.Car;
 
 namespace CarRent.IntegrationTests
 {
@@ -59,7 +60,7 @@ namespace CarRent.IntegrationTests
 
         [Theory]
         [ClassData(typeof(CreateCarData))]
-        public async Task Create_CarWithValidData_ReturnsCreatedCar(CreateNewCar.Command car)
+        public async Task Create_CarWithValidData_ReturnsCreatedCar(CreateNewCarRequest car)
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -79,13 +80,13 @@ namespace CarRent.IntegrationTests
 
         [Theory]
         [ClassData(typeof(UpdateCarData))]
-        public async Task Update_CarWithValidData_ReturnsUpdatedCar(UpdateCar.Command car)
+        public async Task Update_CarWithValidData_ReturnsUpdatedCar(int id, UpdateCarRequest car)
         {
             // Arrange
             var client = _factory.CreateClient();
 
             // Act 
-            var response = await client.PutAsJsonAsync($"/api/v1/cars/{car.Id}", car);
+            var response = await client.PutAsJsonAsync($"/api/v1/cars/{id}", car);
             var carResponse = await SerializationHelper.GetDeserializedValue<CarResponse>(response);
 
             // Assert
@@ -99,7 +100,7 @@ namespace CarRent.IntegrationTests
 
         [Theory]
         [InlineData(3)]
-        public async Task delete_CarWithValidData_RemovesCar(int carId)
+        public async Task Delete_CarWithValidData_RemovesCar(int carId)
         {
             // Arrange
             var client = _factory.CreateClient();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CarRent.Application.Exceptions.CarExceptions;
+using CarRent.Application.Exceptions.RentalExceptions;
 using CarRent.Application.MappingProfiles;
 using CarRent.Application.UseCases.Cars.Handlers;
 using CarRent.Application.UseCases.Rentals.Handlers;
@@ -25,6 +26,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
             MapperConfiguration mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new CarProfile());
+                cfg.AddProfile(new RentalProfile());
             });
 
             _successData = new CreateRental.Command { CarId = 1 };
@@ -33,7 +35,9 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
             _mapper = new Mapper(mapperConfig);
 
             _rentalRepository = new Mock<IRentalRepository>();
+            _rentalRepository.Setup(x => x.GetByIdWithParentsAsync(1)).ReturnsAsync(new Rental { CarId = 1 } );
             _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _successData.CarId)))
+                .Callback<Rental>(x => x.Id = 1)
                 .ReturnsAsync(1);
             _rentalRepository.Setup(x => x.Insert(It.Is<Rental>(x => x.CarId == _failData.CarId)))
                 .ReturnsAsync(0);
@@ -45,7 +49,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
             var result = await handler.Handle(_successData, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.Car.Should().Be(_successData.CarId);
+            result.CarId.Should().Be(_successData.CarId);
         }
         [Fact]
         public async Task WhenCallingCreateRental_WithCommandWhichFails_ExpectErrors()
@@ -54,7 +58,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
             Func<Task> result = async () => await new CreateRental(_rentalRepository.Object, _mapper).Handle(_failData, CancellationToken.None);
 
             var exception = await Record.ExceptionAsync(result);
-            exception.Should().BeOfType<CarNotCreatedException>();
+            exception.Should().BeOfType<RentalNotCreatedException>();
         }
 
         [Fact]

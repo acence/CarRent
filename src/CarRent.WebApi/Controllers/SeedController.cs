@@ -6,6 +6,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CarRent.WebApi.Controllers
 {
+    /// <summary>
+    /// Rest API controller used for initiall seed for manual testing
+    /// </summary>
     [Route("api/v1/seed")]
     [ApiController]
     [ExcludeFromCodeCoverage(Justification = "Used only internally")]
@@ -22,7 +25,14 @@ namespace CarRent.WebApi.Controllers
             _rentalRepository = rentalRepository;
         }
 
+        /// <summary>
+        /// Seeds data to the database
+        /// </summary>
+        /// <response code="200">Seed succeeded</response>
+        /// <response code="500">Seed failed, most likely due to db issue</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task SeedData()
         {
             await _userRepository.InsertOrUpdate(x => x.Id == 1, new User { Id = 1, Name = "Aleksandar Trajkov" });
