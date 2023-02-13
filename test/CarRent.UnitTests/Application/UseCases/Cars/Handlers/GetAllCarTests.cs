@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarRent.UnitTests.Application.UseCases.Cars.Handlers
 {
+    [Collection("Car")]
     public class GetAllCarTests
     {
         private readonly Mock<ICarRepository> _carRepository;
@@ -49,7 +50,7 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Handlers
         {
             // Arrange;
             var query = new GetAllCars.Query();
-            Func<Task> result = async () => await new GetAllCars(null!).Handle(new GetAllCars.Query(), CancellationToken.None);
+            Func<Task> result = async () => await new GetAllCars(null!).Handle(query, CancellationToken.None);
 
             var exception = await Record.ExceptionAsync(result);
             exception.Should().BeOfType<ArgumentNullException>();

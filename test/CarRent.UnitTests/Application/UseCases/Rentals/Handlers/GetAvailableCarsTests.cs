@@ -7,6 +7,7 @@ using Moq;
 
 namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
 {
+    [Collection("Rental")]
     public class GetAvailableCarsTests
     {
         private readonly Mock<ICarRepository> _carRepository;
@@ -35,7 +36,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Handlers
         {
             // Arrange;
             var query = new GetAvailableCars.Query();
-            Func<Task> result = async () => await new GetAvailableCars(null!).Handle(new GetAvailableCars.Query(), CancellationToken.None);
+            Func<Task> result = async () => await new GetAvailableCars(null!).Handle(query, CancellationToken.None);
 
             var exception = await Record.ExceptionAsync(result);
             exception.Should().BeOfType<ArgumentNullException>();

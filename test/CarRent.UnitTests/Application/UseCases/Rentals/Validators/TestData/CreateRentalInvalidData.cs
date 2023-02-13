@@ -13,6 +13,7 @@ namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators.TestData
             Add(new CreateRental.Command { UserId = 1, CarId = 2, From = DateTimeOffset.Now, To = DateTimeOffset.Now.AddHours(1) }, new List<(string, string)> { ("CarId", ValidationErrorCodes.Predicate) });
 
             Add(new CreateRental.Command { UserId = 1, CarId = 1, From = DateTimeOffset.MinValue, To = DateTimeOffset.Now }, new List<(string, string)> { ("From", ValidationErrorCodes.NotEmpty), ("To", ValidationErrorCodes.Predicate) });
+            Add(new CreateRental.Command { UserId = 1, CarId = 1, From = DateTimeOffset.Now.AddDays(3), To = DateTimeOffset.Now.AddDays(3).AddHours(1) }, new List<(string, string)> { ("From", ValidationErrorCodes.LessThan) });
 
             Add(new CreateRental.Command { UserId = 1, CarId = 1, From = DateTimeOffset.Now, To = DateTimeOffset.MinValue }, new List<(string, string)> { ("To", ValidationErrorCodes.NotEmpty) });
             Add(new CreateRental.Command { UserId = 1, CarId = 1, From = DateTimeOffset.Now, To = DateTimeOffset.Now.AddHours(-1) }, new List<(string, string)> { ("To", ValidationErrorCodes.GreaterThan) });

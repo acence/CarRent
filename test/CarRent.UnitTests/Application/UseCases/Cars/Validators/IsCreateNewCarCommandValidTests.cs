@@ -9,6 +9,7 @@ using Moq;
 
 namespace CarRent.UnitTests.Application.UseCases.Cars.Validators
 {
+    [Collection("Car")]
     public class IsCreateNewCarCommandValidTests
     {
         private readonly Mock<ICarRepository> _carRepository;

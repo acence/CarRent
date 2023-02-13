@@ -32,7 +32,7 @@ namespace CarRent.Application.UseCases.Rentals.Validators
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .NotEqual(DateTimeOffset.MinValue)
-                .GreaterThan(DateTime.Now.Date.AddDays(-1))
+                .LessThan(DateTime.Now.Date.AddDays(1))
                 .WithSeverity(Severity.Error);
 
             RuleFor(x => x.To )

@@ -12,6 +12,7 @@ using Moq;
 
 namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
 {
+    [Collection("Rental")]
     public class IsGetAvailableCarsQueryValidTests
     {
         private readonly IsGetAvailableCarsQueryValid _validator;

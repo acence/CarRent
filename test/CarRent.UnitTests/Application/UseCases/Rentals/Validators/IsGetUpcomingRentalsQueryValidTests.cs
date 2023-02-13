@@ -9,6 +9,7 @@ using Moq;
 
 namespace CarRent.UnitTests.Application.UseCases.Rentals.Validators
 {
+    [Collection("Rental")]
     public class IsGetUpcomingRentalsQueryValidTests
     {
         private readonly Mock<IUserRepository> _userRepository;

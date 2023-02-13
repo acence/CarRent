@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRent.WebApi.Controllers
 {
+    /// <summary>
+    /// REST API controller for car specific functions
+    /// </summary>
     [Route("api/v1/cars")]
     [ApiController]
     public class CarController : ControllerBase
@@ -22,6 +25,13 @@ namespace CarRent.WebApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all cars in system, filter if values are provided
+        /// </summary>
+        /// <param name="make">Car make</param>
+        /// <param name="model">Car model</param>
+        /// <param name="uniqueId">Car unique id</param>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CarResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

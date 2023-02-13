@@ -10,6 +10,7 @@ using Moq;
 
 namespace CarRent.UnitTests.Application.UseCases.Cars.Handlers
 {
+    [Collection("Car")]
     public class DeleteCarTests
     {
         private readonly Mock<ICarRepository> _carRepository;
@@ -58,22 +59,22 @@ namespace CarRent.UnitTests.Application.UseCases.Cars.Handlers
         }
 
         [Fact]
-        public async Task WhenCallingGetAllCars_WithoutRepository_ExpectErrors()
+        public async Task WhenCallingDeleteCar_WithoutRepository_ExpectErrors()
         {
             // Arrange;
-            var query = new GetAllCars.Query();
-            Func<Task> result = async () => await new DeleteCar(null!, _mapper).Handle(_successData, CancellationToken.None); ;
+            var command = new DeleteCar.Command();
+            Func<Task> result = async () => await new DeleteCar(null!, _mapper).Handle(command, CancellationToken.None);
 
             var exception = await Record.ExceptionAsync(result);
             exception.Should().BeOfType<ArgumentNullException>();
         }
 
         [Fact]
-        public async Task WhenCallingGetAllCars_WithoutMapper_ExpectErrors()
+        public async Task WhenCallingDeleteCar_WithoutMapper_ExpectErrors()
         {
             // Arrange;
-            var query = new GetAllCars.Query();
-            Func<Task> result = async () => await new DeleteCar(_carRepository.Object, null!).Handle(_failData, CancellationToken.None);
+            var command = new DeleteCar.Command();
+            Func<Task> result = async () => await new DeleteCar(_carRepository.Object, null!).Handle(command, CancellationToken.None);
 
             var exception = await Record.ExceptionAsync(result);
             exception.Should().BeOfType<ArgumentNullException>();
