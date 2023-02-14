@@ -12,7 +12,8 @@ namespace CarRent.WebApi.Controllers
     /// <summary>
     /// Rest API controller for renting cars, seeing availability and rented cars
     /// </summary>
-    [Route("api/v1/rentals")]
+    [ApiVersion("1")]
+    [Route("api/v1/rental")]
     [ApiController]
     public class RentalController : BaseApiController
     {

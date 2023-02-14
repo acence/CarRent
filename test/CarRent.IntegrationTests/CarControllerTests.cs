@@ -11,16 +11,17 @@ using System.Text.Json;
 using CarRent.WebApi.Models.Response;
 using CarRent.WebApi.Models.Request.Car;
 using Moq;
+using CarRent.IntegrationTests.Factories;
 
 namespace CarRent.IntegrationTests
 {
     [Collection("IntegrationTests")]
-    public class CarControllerTests : IClassFixture<WebApplicationFactory<Program>>
+    public class CarControllerTests : IClassFixture<CarRentWebApplicationFactory>
     {
-        private readonly WebApplicationFactory<Program> _factory;
+        private readonly CarRentWebApplicationFactory _factory;
         private ICarRepository _carRepository;
 
-        public CarControllerTests(WebApplicationFactory<Program> factory)
+        public CarControllerTests(CarRentWebApplicationFactory factory)
         {
             _factory = factory;
             var scope = _factory.Services.GetService<IServiceScopeFactory>()!.CreateScope();

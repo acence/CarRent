@@ -1,6 +1,7 @@
 ﻿using CarRent.Application.UseCases.Rentals.Handlers;
 using CarRent.Database.Interfaces.Repositories;
 using CarRent.IntegrationTests.Configuration;
+using CarRent.IntegrationTests.Factories;
 using CarRent.IntegrationTests.Helpers;
 using CarRent.IntegrationTests.TestData.Rentals;
 using CarRent.WebApi.Models.Request.Rentals;
@@ -13,14 +14,14 @@ using System.Net.Http.Json;
 namespace CarRent.IntegrationTests
 {
     [Collection("IntegrationTests")]
-    public class RentalControllerTests : IClassFixture<WebApplicationFactory<Program>>
+    public class RentalControllerTests : IClassFixture<CarRentWebApplicationFactory>
     {
-        private readonly WebApplicationFactory<Program> _factory;
+        private readonly CarRentWebApplicationFactory _factory;
         private readonly ICarRepository _carRepository;
         private readonly IRentalRepository _rentalRepository;
         private readonly IUserRepository _userRepository;
 
-        public RentalControllerTests(WebApplicationFactory<Program> factory)
+        public RentalControllerTests(CarRentWebApplicationFactory factory)
         {
             _factory = factory;
             var scope = _factory.Services.GetService<IServiceScopeFactory>()!.CreateScope();
@@ -39,7 +40,7 @@ namespace CarRent.IntegrationTests
             var from = DateTimeOffset.Now.Date.AddHours(15);
 
             // Act 
-            var response = await client.GetAsync($"/api/v1/rentals/{userId}/upcoming?from={from}");
+            var response = await client.GetAsync($"/api/v1/rental/{userId}/upcoming?from={from}");
             var result = await SerializationHelper.GetDeserializedValue<IEnumerable<RentalResponse>>(response);
 
             // Assert
@@ -55,7 +56,7 @@ namespace CarRent.IntegrationTests
             var from = DateTimeOffset.Now.Date.AddHours(15);
 
             // Act 
-            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>($"/api/v1/rentals/available-cars?from={from}");
+            var result = await client.GetFromJsonAsync<IEnumerable<CarResponse>>($"/api/v1/rental/available-cars?from={from}");
 
             // Assert
             result.Should().NotBeNull();
@@ -70,7 +71,7 @@ namespace CarRent.IntegrationTests
 
             // Act 
             var content = JsonContent.Create(rental, options: SerializationHelper.Options);
-            var result = await client.PostAsync($"/api/v1/rentals", content);
+            var result = await client.PostAsync($"/api/v1/rental", content);
 
             var rentalResponse = await SerializationHelper.GetDeserializedValue<RentalResponse>(result);
 
