@@ -21,8 +21,15 @@ namespace CarRent.WebApi.Configuration.Swagger
 
         public static WebApplication UseConfiguredSwagger(this WebApplication app)
         {
+            var descriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in descriptionProvider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"Car Rent WebApi {description.GroupName}");
+                }
+            });
 
             return app;
         }

@@ -25,7 +25,7 @@ namespace CarRent.WebApi.Configuration.Swagger
         {
             return new OpenApiInfo
             {
-                Title = "Car Rent WebApi",
+                Title = $"Car Rent WebApi {description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
             };
         }

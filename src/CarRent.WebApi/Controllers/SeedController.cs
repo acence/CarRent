@@ -10,7 +10,7 @@ namespace CarRent.WebApi.Controllers
     /// Rest API controller used for initiall seed for manual testing
     /// </summary>
     [ApiVersionNeutral]
-    [Route("api/v1/seed")]
+    [Route("api/seed")]
     [ApiController]
     [ExcludeFromCodeCoverage(Justification = "Used only internally")]
     public class SeedController : ControllerBase

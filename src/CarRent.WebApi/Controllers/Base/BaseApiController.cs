@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRent.WebApi.Controllers.Base
 {
+    [ApiController]
     public abstract class BaseApiController : ControllerBase
     {
         private readonly ILogger _logger;
