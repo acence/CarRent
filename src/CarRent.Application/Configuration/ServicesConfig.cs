@@ -34,7 +34,8 @@ namespace CarRent.Application.Configuration
             foreach(var type in typesToRegister)
             {
                 var validationInterface = type.GetInterfaces()
-                    .Where(x => x.GetGenericTypeDefinition() == typeof(IValidator<>))
+                    .Where(x => x.IsGenericType 
+                        && x.GetGenericTypeDefinition() == typeof(IValidator<>))
                     .First();
 
                 services.AddTransient(validationInterface, type);
