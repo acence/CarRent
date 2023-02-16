@@ -5,7 +5,9 @@ using CarRent.Application.UseCases.Rentals.Handlers;
 using CarRent.Application.UseCases.Rentals.Validators;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CarRent.Application.Configuration
 {
@@ -22,13 +24,23 @@ namespace CarRent.Application.Configuration
 
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
-            return services
-                .AddTransient<IValidator<CreateNewCar.Command>, IsCreateNewCarCommandValid>()
-                .AddTransient<IValidator<UpdateCar.Command>, IsUpdateCarCommandValid>()
-                .AddTransient<IValidator<DeleteCar.Command>, IsDeleteCarCommandValid>()
-                .AddTransient<IValidator<CreateRental.Command>, IsCreateRentalCommandValid>()
-                .AddTransient<IValidator<GetAvailableCars.Query>, IsGetAvailableCarsQueryValid>()
-                .AddTransient<IValidator<GetUpcomingRentals.Query>, IsGetUpcomingRentalsQueryValid>();
+            var typesToRegister = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(type => !string.IsNullOrEmpty(type.Namespace)
+                    && type.BaseType != null
+                    && type.BaseType.IsGenericType 
+                    && type.BaseType.GetGenericTypeDefinition() == typeof(AbstractValidator<>));
+
+            foreach(var type in typesToRegister)
+            {
+                var validationInterface = type.GetInterfaces()
+                    .Where(x => x.GetGenericTypeDefinition() == typeof(IValidator<>))
+                    .First();
+
+                services.AddTransient(validationInterface, type);
+            }
+
+            return services;
         }
     }
 }
