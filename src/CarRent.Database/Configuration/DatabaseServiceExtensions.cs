@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using CarRent.Database.Interfaces;
 using CarRent.Database.Interfaces.Repositories;
 using CarRent.Database.Repositories;
+using System.Reflection;
+using FitnessApp.Database.Base;
+using CarRent.Database.Interfaces.Base;
 
 namespace CarRent.Database.Configuration
 {
@@ -22,9 +25,22 @@ namespace CarRent.Database.Configuration
                 options.UseInMemoryDatabase("CarRent");
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICarRepository, CarRepository>();
-            services.AddScoped<IRentalRepository, RentalRepository>();
+
+            var typesToRegister = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(type => !string.IsNullOrEmpty(type.Namespace)
+                    && type.BaseType != null
+                    && type.BaseType.IsGenericType
+                    && type.BaseType.GetGenericTypeDefinition() == typeof(BaseRepository<>));
+
+            foreach (var type in typesToRegister)
+            {
+                var implementedInterface = type.GetInterfaces()
+                    .Where(x => x.GetInterfaces().Any(y => y.GetGenericTypeDefinition() == typeof(IBaseRepository<>)))
+                    .First();
+
+                services.AddTransient(implementedInterface, type);
+            }
 
             return services;
         }
