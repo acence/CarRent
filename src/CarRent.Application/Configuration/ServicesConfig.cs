@@ -16,7 +16,7 @@ namespace CarRent.Application.Configuration
         public static IServiceCollection AddMediatorServices(this IServiceCollection services)
         {
             services
-                .AddMediatR(typeof(GetAllCars.Query))
+                .AddMediatR(typeof(ServicesConfig))
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             return services;
