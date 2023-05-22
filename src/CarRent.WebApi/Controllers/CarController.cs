@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using CarRent.Application.Behaviours;
 using CarRent.Application.UseCases.Cars.Handlers;
-using CarRent.Domain;
-using CarRent.WebApi.Controllers.Base;
+using CarRent.WebApi.Extensions;
 using CarRent.WebApi.Models.Request.Car;
 using CarRent.WebApi.Models.Response;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +16,12 @@ namespace CarRent.WebApi.Controllers
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/cars")]
     [ApiController]
-    public class CarController : BaseApiController
+    public class CarController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public CarController(IMediator mediator, IMapper mapper, ILogger<CarController> logger) : base(logger)
+        public CarController(IMediator mediator, IMapper mapper, ILogger<CarController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -43,11 +40,8 @@ namespace CarRent.WebApi.Controllers
         public async Task<IActionResult> Get(string? make, string? model, string? uniqueId)
         {
             var query = new GetAllCars.Query { Make = make, Model = model, UniqueId = uniqueId };
-            return await ProcessResponse(async () =>
-            {
-                var result = await _mediator.Send(query);
-                return _mapper.Map<IEnumerable<CarResponse>>(result);
-            });
+
+            return await _mediator.SendAndProcessResponseAsync<GetAllCars.Query, IEnumerable<CarResponse>>(_mapper, query);
         }
 
         /// <summary>
@@ -62,11 +56,8 @@ namespace CarRent.WebApi.Controllers
         public async Task<IActionResult> Post([FromBody] CreateNewCarRequest request)
         {
             var command = _mapper.Map<CreateNewCar.Command>(request);
-            return await ProcessResponse(async () =>
-            {
-                var result = await _mediator.Send(command);
-                return _mapper.Map<CarResponse>(result);
-            });
+
+            return await _mediator.SendAndProcessResponseAsync<CreateNewCar.Command, CarResponse>(_mapper, command);
         }
 
         /// <summary>
@@ -85,11 +76,7 @@ namespace CarRent.WebApi.Controllers
             var command = _mapper.Map<UpdateCar.Command>(request);
             command.Id = id;
 
-            return await ProcessResponse(async () =>
-            {
-                var result = await _mediator.Send(command);
-                return _mapper.Map<CarResponse>(result);
-            });
+            return await _mediator.SendAndProcessResponseAsync<UpdateCar.Command, CarResponse>(_mapper, command);
         }
 
         /// <summary>
@@ -104,10 +91,8 @@ namespace CarRent.WebApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteCar.Command { Id = id };
-            return await ProcessResponse(async () =>
-            {
-                var result = await _mediator.Send(command);
-            });
+
+            return await _mediator.SendAsync<DeleteCar.Command>(command);
         }
     }
 }
